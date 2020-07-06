@@ -8,7 +8,7 @@ import projectile
 
 pygame.init()
 #pygame.mixer.init()
-#pygame.mixer.music.load('music.mp3')
+#pygame.mixer.music.load('sounds/Music/music.mp3')
 #pygame.mixer.music.play(-1,0,0)
 
 display_width = 800
@@ -29,10 +29,10 @@ gameDisplay = pygame.display.set_mode(screenSize)
 pygame.display.set_caption('Trolls2')
 
 clock = pygame.time.Clock()
-playerImg = pygame.image.load('trollMain.png')
-enemyImg = pygame.image.load('soldier.png')
-missileImg = pygame.image.load('missile.png')
-backgroundImg = pygame.image.load('galaxy.png')
+playerImg = pygame.image.load('images/trollMain.png')
+enemyImg = pygame.image.load('images/soldier.png')
+missileImg = pygame.image.load('images/missile.png')
+backgroundImg = pygame.image.load('images/galaxy.png')
 
 def quitGame():
     pygame.quit()
@@ -60,7 +60,7 @@ def crash(player1):
 
 def createEnemies(numberEnemies, enemieslist):
     for i in range(0, numberEnemies):
-        enemieslist.append(enemy.enemy(display_width, display_height, enemyImg, 2))
+        enemieslist.append(enemy.enemy(display_width, display_height, enemyImg, 8, missileImg))
     return enemieslist
 
 def game_intro():
@@ -113,10 +113,9 @@ def game_loop():
 
         #enemies loop
         for i in enemies:
-            i.drawEnemy(gameDisplay)
+            i.updateEnemy(display_width, display_height, player1, playerProjectiles, gameDisplay)
             if i.detectCollision(player1, playerProjectiles, display_width, display_height) == True:
                 crash(player1)
-            i.updateEnemyPosition(player1, display_width, display_height)
 
         #player loop
         player1.updatePlayerPosition()

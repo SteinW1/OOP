@@ -2,11 +2,11 @@ import pygame
 import math
 
 class projectile:
-    def __init__(self, player, img, speed):
-        self.location = (player.location)
+    def __init__(self, startObject, img, speed):
+        self.location = (startObject.location)
         self.img = img
         self.speed = speed
-        self.projectileVector = self.getProjectileVector(player.location)
+        self.projectileVector = self.getProjectileVector(startObject.location)
         self.projectileMovement = (self.projectileVector[0] * self.speed, self.projectileVector[1] * self.speed)
 
     #get the directional vector of a created projectile and calculate the unit movement vector
