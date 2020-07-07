@@ -60,7 +60,7 @@ def crash(player1):
 
 def createEnemies(numberEnemies, enemieslist):
     for i in range(0, numberEnemies):
-        enemieslist.append(enemy.enemy(display_width, display_height, enemyImg, 8, missileImg))
+        enemieslist.append(enemy.enemy(display_width, display_height, enemyImg, 2, missileImg))
     return enemieslist
 
 def game_intro():
@@ -92,8 +92,8 @@ def game_loop():
     playerProjectiles = []
     numberEnemies = 10
     createEnemies(numberEnemies, enemies)
-
-    while True:
+    gameRunning = True
+    while gameRunning:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quitGame()
@@ -107,7 +107,7 @@ def game_loop():
         #projectiles loop
         playerProjectilesCopy = playerProjectiles.copy()
         for i in range(len(playerProjectilesCopy)):
-            playerProjectilesCopy[i].updateProjectilePosition(gameDisplay)
+            playerProjectilesCopy[i].updateProjectile(gameDisplay)
             if playerProjectilesCopy[i].detectOffScreen(display_width, display_height) == True:
                 del playerProjectiles[i]
 
@@ -125,7 +125,7 @@ def game_loop():
 
         #draw the score. always draw score last to prevent it from being covered
         for i in enemies:
-            score += i.getTimesHit()
+            score += i.timesHit
         playerScore(score)
         score = 0
 

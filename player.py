@@ -11,32 +11,32 @@ class player:
         self.y_change = 0
         self.width = 16
         self.height = 32
+        self.speed = 5
 
     #draw the player sprite onto the game canvas
     def drawPlayer(self, gameDisplay):
         gameDisplay.blit(self.img, (self.location))
-        #gameDisplay.blit(self.img, (self.x,self.y))
 
     #get the users keypress and convert it into the player's movement
     def getPlayerMovement(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                self.x_change -= 5
+                self.x_change -= self.speed
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                self.x_change += 5
+                self.x_change += self.speed
             if event.key == pygame.K_UP or event.key == pygame.K_w:
-                self.y_change -= 5
+                self.y_change -= self.speed
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                self.y_change += 5
+                self.y_change += self.speed
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                self.x_change += 5
+                self.x_change += self.speed
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                self.x_change -= 5
+                self.x_change -= self.speed
             if event.key == pygame.K_UP or event.key == pygame.K_w:
-                self.y_change += 5
+                self.y_change += self.speed
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                self.y_change -= 5
+                self.y_change -= self.speed
         return(self.x_change, self.y_change)
 
     #detect if the player collides with the edge of the display screen
@@ -52,5 +52,3 @@ class player:
     #update the players positon based on their movement values
     def updatePlayerPosition(self):
         self.location = (self.location[0] + self.x_change), (self.location[1] + self.y_change)
-        #self.x += self.x_change
-        #self.y += self.y_change
