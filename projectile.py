@@ -9,7 +9,6 @@ class projectile:
         self.img = img
         self.speed = speed
         self.physics = physics2D.physics()
-        #self.projectileVector = self.getProjectileVector(startObject.location)
         self.projectileMovement = self.physics.getMovement(self.location, self.targetLocation)
 
     #update the projectile for the frame

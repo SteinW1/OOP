@@ -3,13 +3,10 @@ import time
 import random
 import player
 import enemy
-import button
+import ui
 import projectile
 
 pygame.init()
-#pygame.mixer.init()
-#pygame.mixer.music.load('sounds/Music/music.mp3')
-#pygame.mixer.music.play(-1,0,0)
 
 display_width = 800
 display_height = 600
@@ -24,7 +21,6 @@ colors = {'black': (0, 0, 0, 255),
     'bright_red' : (255, 0, 0, 255),
     'bright_green' : (0, 255, 0, 255),
     'sky_blue' : (184, 251, 255, 255)}
-
 gameDisplay = pygame.display.set_mode(screenSize)
 pygame.display.set_caption('Trolls2')
 
@@ -53,6 +49,7 @@ def message_display(text, size):
     time.sleep(2)
 
 def crash(player1):
+    message = button.textBox
     message_display('You were smashed!', 50)
     player1.resetPlayerMovement()
     pygame.event.clear()
@@ -64,8 +61,8 @@ def createEnemies(numberEnemies, enemieslist):
     return enemieslist
 
 def game_intro():
-    StartButton = button.button(150, 450, 100, 50, colors['bright_green'], colors['green'], colors['black'], "comicsansms", 20, game_loop, "Start!")
-    ExitButton = button.button(550, 450, 100, 50, colors['bright_red'], colors['red'], colors['black'], "comicsansms", 20, quitGame, "Exit")
+    StartButton = ui.button(150, 450, 100, 50, colors['bright_green'], colors['green'], colors['black'], "comicsansms", 20, game_loop, "Start!")
+    ExitButton = ui.button(550, 450, 100, 50, colors['bright_red'], colors['red'], colors['black'], "comicsansms", 20, quitGame, "Exit")
     
     while True:
         for event in pygame.event.get():
@@ -90,7 +87,7 @@ def game_loop():
     player1 = player.player(screenSize, playerImg)
     enemies = []
     playerProjectiles = []
-    numberEnemies = 10
+    numberEnemies = 8
     createEnemies(numberEnemies, enemies)
     gameRunning = True
     while gameRunning:
@@ -101,7 +98,6 @@ def game_loop():
                 playerProjectiles.append(projectile.projectile(player1, missileImg, 4))
             player1.getPlayerMovement(event)
 
-        #gameDisplay.fill(colors['sky_blue'])
         gameDisplay.blit(backgroundImg, (0,0))
 
         #projectiles loop
@@ -118,10 +114,8 @@ def game_loop():
                 crash(player1)
 
         #player loop
-        player1.updatePlayerPosition()
-        if player1.detectCollision(display_width, display_height)  == True:
+        if player1.updatePlayer(display_width, display_height, gameDisplay)  == True:
             crash(player1)
-        player1.drawPlayer(gameDisplay)
 
         #draw the score. always draw score last to prevent it from being covered
         for i in enemies:

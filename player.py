@@ -3,8 +3,8 @@ import math
 
 class player:
     def __init__(self, screenSize, image):
-        self.x = (screenSize[0] * 0.5)
-        self.y = ((screenSize[1] * 0.5) - 32)
+        #self.x = (screenSize[0] * 0.5)
+        #self.y = ((screenSize[1] * 0.5) - 32)
         self.location = (screenSize[0] * 0.5), ((screenSize[1] * 0.5) - 32)
         self.img = image
         self.x_change = 0
@@ -12,6 +12,15 @@ class player:
         self.width = 16
         self.height = 32
         self.speed = 5
+        self.hitbox = (self.location[0], self.location[1], self.width, self.height)
+
+    # update the player for the frame
+    def updatePlayer(self, display_width, display_height, gameDisplay):
+        self.updatePlayerPosition()
+        self.drawPlayer(gameDisplay)
+        self.hitbox = (self.location[0], self.location[1], self.width, self.height)
+        if self.detectCollision(display_width, display_height) == True:
+            return True
 
     #draw the player sprite onto the game canvas
     def drawPlayer(self, gameDisplay):

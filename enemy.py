@@ -9,21 +9,22 @@ class enemy:
         self.speed = speed
         self.width = 16
         self.height = 32
-        self.location = ()
+        self.location = 0
         self.randomSpawn(display_width, display_height)
         self.timesHit = 0
         self.direction = random.randrange(0,4)
         self.img = img
         self.projectileImg = projectileImg
         self.projectiles = []
+        self.hitbox = (self.location[0], self.location[1], self.width, self.height)
         self.physics = physics2D.physics()
 
     # update the all of the enemy processes for the frame.
     def updateEnemy(self, display_width, display_height, player, playerProjectiles, gameDisplay):
         self.drawEnemy(gameDisplay)
         #update the hitbox for the frame
-        hitbox = (self.location[0], self.location[1], self.width, self.height)
-        pygame.draw.rect(gameDisplay, (255,0,0), hitbox, 1)
+        self.hitbox = (self.location[0], self.location[1], self.width, self.height)
+        pygame.draw.rect(gameDisplay, (255,0,0), self.hitbox, 1)
         #update position
         vector = self.physics.getVector(self.location, player.location)
         vectorLength = self.physics.getVectorLength(vector)
@@ -40,24 +41,23 @@ class enemy:
 
     # detect if the enemy collides with the player or with a projectile or with the edge of the screen
     def detectCollision(self, player, playerProjectiles, display_width, display_height):
-        playerProjectilesCopy = playerProjectiles.copy()
+        #playerProjectilesCopy = playerProjectiles.copy()
         
         #detect collision with the projectiles
-        for i in range(len(playerProjectilesCopy)):
-            if self.location[0] < playerProjectilesCopy[i].location[0] < (self.location[0] + self.width) and self.location[1] < playerProjectilesCopy[i].location[1] < (self.location[1] + self.height):
+        for projectile in playerProjectiles[:]: # uses [:] to create a bopy of playerProjectiles to iterate through
+            if self.location[0] < projectile.location[0] < (self.location[0] + self.width) and self.location[1] < projectile.location[1] < (self.location[1] + self.height):
                 self.timesHit += 1
                 self.randomSpawn(display_width, display_height)
-                del(playerProjectiles[i])
+                del(projectile)
                 self.projectiles = []
 
         #detect collision with the player
-        if (player.location[0] <= (self.location[0] + self.width) and (player.location[0] + player.width) >= self.location[0] and player.location[1] <= (self.location[1] + self.height) and (player.location[1] + player.height) >= self.location[1]):
-            self.collide = True
+        if self.physics.detectCollision(player.hitbox, self.hitbox) == True:
             return True
 
         #detect collision with the edge of screen
-        if self.location[1] > display_height or self.location[1] < (0 - self.height)  or self.location[0] > display_width or self.location[0] < (0 - self.width):
-            self.randomSpawn(display_width, display_height)
+        if self.physics.detectCollision(self.hitbox, (0, 0, display_width, display_height)) == False:
+            return True
 
     #respawn the enemy with a random position outside the screen and with a random direction
     def randomSpawn(self, display_width, display_height):
@@ -75,7 +75,6 @@ class enemy:
         elif self.direction == 3:
             newY = random.randrange(0, display_height - self.height)
             self.location = display_width, newY
-
 
     #draw the enemy on the canvas
     def drawEnemy(self, gameDisplay):

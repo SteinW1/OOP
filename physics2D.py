@@ -16,7 +16,7 @@ class physics:
         VectorLength = math.sqrt(vector[0]**2 + vector[1]**2)
         return VectorLength
 
-    #function for finding unit vector when given a vector and the vector's length
+    #function for finding unit vector when given a vector and that vector's length
     def getUnitVector(self, vector, vectorLength):
         if vectorLength != 0:
             unitVector = (vector[0]/vectorLength, vector[1]/vectorLength)
@@ -26,11 +26,11 @@ class physics:
     
     #returns the unit vector of two positions
     def getMovement(self, position1, position2):
-        print(position1, position2)
         vector = self.getVector(position1, position2)
         vectorLength = self.getVectorLength(vector)
         return self.getUnitVector(vector, vectorLength)
     
-    #detect collision between two rectangular objects
+    #detect collision between two rectangular objects [x, y, width, height]
     def detectCollision(self, rectangle1, rectangle2):
-        pass
+        if (rectangle1[0] + rectangle1[2]) >= rectangle2[0] and rectangle1[0] <= (rectangle2[0] + rectangle2[2]) and (rectangle1[1] + rectangle1[3]) >= rectangle2[1] and rectangle1[1] <= (rectangle2[1] + rectangle2[3]):
+            return True
