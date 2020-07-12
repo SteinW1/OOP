@@ -1,6 +1,5 @@
 import pygame
 import sys
-import time
 from states import menu, game
 
 class Window:
@@ -20,8 +19,11 @@ class GameController:
     def __init__(self, window):
         self.__dict__.update(settings)
         self.done = False
-        self.screen = pygame.display.set_mode(self.size)
-        self.clock = pygame.time.Clock()
+        self.gameDisplay = pygame.display.set_mode(self.size)
+        self.display_width = self.size[0]
+        self.display_height = self.size[1]
+        self.gameClock = pygame.time.Clock()
+
     def setup_states(self, state_dict, start_state):
         self.state_dict = state_dict
         self.state_name = start_state
@@ -38,7 +40,9 @@ class GameController:
             self.done = True
         elif self.state.done:
             self.flip_state()
-        self.state.update(self.screen)
+        #call the update method for the current active state
+        self.state.update(self.gameDisplay, self.display_width, self.display_height)
+
     def event_loop(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -46,21 +50,22 @@ class GameController:
             self.state.get_event(event)
     def main_game_loop(self):
         while not self.done:
-            delta_time = self.clock.tick(self.fps)
+            delta_time = self.gameClock.tick(self.fps)
             self.event_loop() #
             self.update()
             pygame.display.update() 
 
 if __name__ == '__main__':
+    pygame.init()
+
     # TODO: move settings dictionary to JSON file
     settings = {
-        'size':(600,400),
+        'size':(800,600),
         'fps' :60,
         'WindowTitle' : 'Trolls2'
     }
 
-    window = Window(600, 400, 'Trolls2', 60)
-    #Trolls2 = GameController(**settings)
+    window = Window(800, 600, 'Trolls2', 60)
     Trolls2 = GameController(window)
 
     # TODO: move state_dict dictionry to JSON file
