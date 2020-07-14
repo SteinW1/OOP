@@ -16,20 +16,20 @@ class Menu(state.State):
     def __init__(self):
         state.State.__init__(self)
         self.Title = None
-        self.StartButton = ui.button(150, 450, 100, 50, colors['bright_green'], colors['green'], colors['black'], "comicsansms", 20, self.update, "Start!")
-        self.ExitButton = ui.button(550, 450, 100, 50, colors['bright_red'], colors['red'], colors['black'], "comicsansms", 20, pygame.quit, "Exit")
+        self.StartButton = ui.button(150, 450, 100, 50, colors['bright_green'], colors['green'], colors['black'], "comicsansms", 20, "Start!")
+        self.ExitButton = ui.button(550, 450, 100, 50, colors['bright_red'], colors['red'], colors['black'], "comicsansms", 20, "Exit")
         self.next = 'game'
         self.isActive = True
         self.startup()
 
     def cleanup(self):
         #method for cleaning up Menu state stuff
-        print('cleaning up menu')
+        print('Cleaning Up Menu State... \n    - Done.')
         self.isActive = False
 
     def startup(self):
         #method for starting Menu state stuff
-        print('starting up menu')
+        print('Starting Up Menu State...')
         self.isActive = True
 
     def get_event(self, event):

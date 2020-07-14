@@ -2,11 +2,9 @@ import pygame
 import math
 
 class player:
-    def __init__(self, screenSize, image):
-        #self.x = (screenSize[0] * 0.5)
-        #self.y = ((screenSize[1] * 0.5) - 32)
+    def __init__(self, screenSize):
         self.location = (screenSize[0] * 0.5), ((screenSize[1] * 0.5) - 32)
-        self.img = image
+        self.img = pygame.image.load('images/trollMain.png')
         self.x_change = 0
         self.y_change = 0
         self.width = 16
@@ -17,7 +15,7 @@ class player:
     # update the player for the frame
     def updatePlayer(self, display_width, display_height, gameDisplay):
         self.updatePlayerPosition()
-        self.drawPlayer(gameDisplay)
+        #self.drawPlayer(gameDisplay)
         self.hitbox = (self.location[0], self.location[1], self.width, self.height)
         if self.detectCollision(display_width, display_height) == True:
             return True

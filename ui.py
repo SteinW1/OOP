@@ -33,7 +33,6 @@ class button:
         if self.detectButtonActivity(gameDisplay) == True:
             return True
         self.drawButton(gameDisplay)
-        
 
     def detectButtonActivity(self, gameDisplay):
         mouse = pygame.mouse.get_pos()
@@ -61,11 +60,11 @@ class textBox:
 
         #check for the requested text alignment
         if self.alignment.upper() == 'LEFT':
-            self.textBoxRect.midright = x, y
+            self.textBoxRect.topleft = x, y
         elif self.alignment.upper() == 'CENTER':
             self.textBoxRect.center = (x, y)
         elif self.alignment.upper() == 'RIGHT':
-            self.textBoxRect.midleft = x, y
+            self.textBoxRect.topright = x, y
     
     #update the textbox for the frame
     def updateTextBox(self, gameDisplay):

@@ -22,19 +22,22 @@ class GameController:
         self.gameDisplay = pygame.display.set_mode(self.size)
         self.display_width = self.size[0]
         self.display_height = self.size[1]
+        self.screenSize = (self.display_width, self.display_height)
         self.gameClock = pygame.time.Clock()
 
     def setup_states(self, state_dict, start_state):
         self.state_dict = state_dict
         self.state_name = start_state
         self.state = self.state_dict[self.state_name]
+
     def flip_state(self):
         self.state.done = False
         previous,self.state_name = self.state_name, self.state.next
         self.state.cleanup()
         self.state = self.state_dict[self.state_name]
-        self.state.startup()
+        self.state.startup(self.screenSize)
         self.state.previous = previous
+
     def update(self):
         if self.state.quit:
             self.done = True
@@ -48,6 +51,7 @@ class GameController:
             if event.type == pygame.QUIT:
                 self.done = True
             self.state.get_event(event)
+
     def main_game_loop(self):
         while not self.done:
             delta_time = self.gameClock.tick(self.fps)
