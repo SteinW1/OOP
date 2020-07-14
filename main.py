@@ -14,7 +14,7 @@ class Window:
     def quit(self):
         pygame.quit()
         quit()
-  
+
 class GameController:
     def __init__(self, window):
         self.__dict__.update(settings)
