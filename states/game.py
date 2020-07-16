@@ -56,9 +56,8 @@ class Game(state.State):
         for i in self.enemies:
             i.updateEnemy(self.display_width, self.display_height, self.player1, self.gameDisplay)
             if i.detectCollision(self.player1, self.playerProjectiles, self.display_width, self.display_height) == True:
-                print('Collision')
-                self.done == True
-                #crash(player1)
+                self.next = 'gameover'
+                self.done = True
         
         #player projectiles loop
         playerProjectilesCopy = self.playerProjectiles.copy()

@@ -1,6 +1,6 @@
 import pygame
 import sys
-from states import menu, game, splash, transition
+from states import menu, game, splash, transition, gameover
 
 class Window:
     def __init__(self, width, height, name, fps):
@@ -28,10 +28,11 @@ class GameController:
 
         # TODO: move state_dict dictionry to JSON file
         self.state_dict = {
+            'transition': transition.Transition(self.gameDisplay, self.window),
             'menu': menu.Menu(self.gameDisplay, self.window),
             'game': game.Game(self.gameDisplay, self.window),
             'splash': splash.Splash(self.gameDisplay, self.window),
-            'transition': transition.Transition(self.gameDisplay, self.window),
+            'gameover': gameover.GameOver(self.gameDisplay, self.window),
         }
 
     def setup_states(self, start_state):

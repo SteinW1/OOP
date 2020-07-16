@@ -11,11 +11,11 @@ class Transition(state.State):
         self.targetState = 'transition'
 
     def cleanup(self):
-        #method for cleaning up Menu state stuff
+        #method for cleaning up state stuff
         print('Cleaning Up Transition State... \n    - Done.')
 
     def startup(self):
-        #method for starting Menu state stuff
+        #method for starting state stuff
         print('Starting Up Transition State...')
         self.backgroundAlphaColor = 0
 
@@ -32,7 +32,7 @@ class Transition(state.State):
         if self.backgroundAlphaColor >= 255:
             self.done = True
         else:
-            self.backgroundAlphaColor += 10
+            self.backgroundAlphaColor += 5
         self.draw()
 
     def draw(self):

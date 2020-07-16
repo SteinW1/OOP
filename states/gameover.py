@@ -4,24 +4,22 @@ import pygame
 import ui
 from states import state
 
-class Splash(state.State):
+class GameOver(state.State):
     def __init__(self, gameDisplay, window):
         state.State.__init__(self, gameDisplay, window)
         self.next = 'transition'
         self.targetState = 'menu'
         self.counter = 0
-        
-        #initialize logo image
-        self.logo = pygame.image.load('images/trollMain.png') #TODO: Add splash screen logos
-        self.logoHeight = 90
-        self.logoWidth = 232
+
+        self.gameOverText = ui.textBox((window.windowSize[0]/2), (window.windowSize[1]/3), 'Game Over', 'comicsansms', 115, 'center', self.gameDisplay)
+        self.timer = pygame.time.Clock()
 
     def cleanup(self):
-        #method for cleaning up Splash state stuff
+        #method for cleaning up Menu state stuff
         print('Cleaning Up Splash State...')
 
     def startup(self):
-        #method for starting Splash state stuff
+        #method for starting Menu state stuff
         print('Starting Up Splash State...')
 
     def get_event(self, event):
@@ -31,16 +29,16 @@ class Splash(state.State):
             self.done = True
         
     def update(self):
-
+        
         if self.counter < 60:
             self.counter += 1
+            self.timer.tick(self.window.fps/2)
         else:
             self.done = True
 
         self.draw()
-        sleepTime = 1/60
-        time.sleep(sleepTime)
+        #time.sleep(2)
 
     def draw(self):
-        self.gameDisplay.fill((255, 255, 255, 255))
-        self.gameDisplay.blit(self.logo, ((self.window.windowSize[0]/2) - self.logoWidth/2, (self.window.windowSize[1])- self.logoHeight/2))
+        self.previousState.draw()
+        self.gameOverText.drawTextBox(self.gameDisplay)
