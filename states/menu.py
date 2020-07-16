@@ -13,14 +13,14 @@ colors = {'black': (0, 0, 0, 255),
     'sky_blue' : (184, 251, 255, 255)}
 
 class Menu(state.State):
-    def __init__(self):
-        state.State.__init__(self)
+    def __init__(self, gameDisplay, window):
+        state.State.__init__(self, gameDisplay, window)
         self.Title = None
         self.StartButton = ui.button(150, 450, 100, 50, colors['bright_green'], colors['green'], colors['black'], "comicsansms", 20, "Start!")
         self.ExitButton = ui.button(550, 450, 100, 50, colors['bright_red'], colors['red'], colors['black'], "comicsansms", 20, "Exit")
-        self.next = 'game'
-        self.isActive = True
-        self.startup()
+
+        #set the next states 'next' variables
+        self.targetState = 'game'
 
     def cleanup(self):
         #method for cleaning up Menu state stuff
@@ -30,27 +30,28 @@ class Menu(state.State):
     def startup(self):
         #method for starting Menu state stuff
         print('Starting Up Menu State...')
-        self.isActive = True
+        
+        #set the next state, defaults to the transition state
+        self.next = self.previousState.targetState
 
     def get_event(self, event):
         if event.type == pygame.KEYDOWN:
             print('Menu State keydown')
         
-    def update(self, gameDisplay, display_width, display_height):
-        self.Title = ui.textBox((display_width/2), (display_height/3), 'Trolls2', 'comicsansms', 115, 'center', gameDisplay)
+    def update(self):
+        self.Title = ui.textBox((self.window.windowSize[0]/2), (self.window.windowSize[1]/3), 'Trolls2', 'comicsansms', 115, 'center', self.gameDisplay)
         
-        self.draw(gameDisplay)
+        self.draw()
         
         # run the button idle loop and check if the button has been clicked
-        if self.isActive == True:
-            if self.StartButton.idle(gameDisplay) == True:
-                self.done = True
-            if self.ExitButton.idle(gameDisplay) == True:
-                pygame.quit()
-                sys.exit()
+        if self.StartButton.idle(self.gameDisplay) == True:
+            self.done = True
+        if self.ExitButton.idle(self.gameDisplay) == True:
+            pygame.quit()
+            sys.exit()
 
-    def draw(self, gameDisplay):
-        gameDisplay.fill(colors['white'])
-        self.StartButton.drawButton(gameDisplay)
-        self.ExitButton.drawButton(gameDisplay)
-        self.Title.drawTextBox(gameDisplay)
+    def draw(self):
+        self.gameDisplay.fill(colors['white'])
+        self.StartButton.drawButton(self.gameDisplay)
+        self.ExitButton.drawButton(self.gameDisplay)
+        self.Title.drawTextBox(self.gameDisplay)

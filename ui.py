@@ -39,6 +39,7 @@ class button:
         click = pygame.mouse.get_pressed()
         if self.x + self.width > mouse[0] > self.x and self.y + self.height > mouse[1] > self.y:
             pygame.draw.rect(gameDisplay, self.activeColor, (self.x, self.y, self.width, self.height))
+            self.drawButton(gameDisplay)
             if click[0] == 1:
                 return True
         else:
