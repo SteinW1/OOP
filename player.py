@@ -35,7 +35,7 @@ class player:
                 self.y_change -= self.speed
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                 self.y_change += self.speed
-        if event.type == pygame.KEYUP:
+        if event.type == pygame.KEYUP and (self.y_change != 0 or self.x_change != 0):
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 self.x_change += self.speed
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:

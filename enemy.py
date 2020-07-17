@@ -32,7 +32,13 @@ class enemy:
             unitVector = self.physics.getUnitVector(vector, vectorLength)
             self.location = (self.location[0] + unitVector[0] * self.speed, self.location[1] + unitVector[1] * self.speed)
         elif len(self.projectiles) < 1: #check if projectile has already been fired
-            self.projectiles.append(projectile.projectile(self))
+            self.projectiles.append(projectile.projectile(self, player.location))
+
+        projectilesCopy = self.projectiles.copy()
+        for i in range(len(projectilesCopy)):
+            projectilesCopy[i].updateProjectile(gameDisplay)
+            if projectilesCopy[i].detectOffScreen(display_width, display_height) == True:
+                del self.projectiles[i]
 
     # detect if the enemy collides with the player or with a projectile or with the edge of the screen
     def detectCollision(self, player, playerProjectiles, display_width, display_height):

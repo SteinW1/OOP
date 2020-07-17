@@ -19,6 +19,10 @@ class Menu(state.State):
         self.StartButton = ui.button(150, 450, 100, 50, colors['bright_green'], colors['green'], colors['black'], "comicsansms", 20, "Start!")
         self.ExitButton = ui.button(550, 450, 100, 50, colors['bright_red'], colors['red'], colors['black'], "comicsansms", 20, "Exit")
 
+        self.titleBackground = pygame.image.load('images/TitleBackground.png')
+        self.titleBackground_width = 500
+        self.titleBackground_height = 300
+
         #set the next states 'next' variables
         self.targetState = 'game'
 
@@ -54,4 +58,6 @@ class Menu(state.State):
         self.gameDisplay.fill(colors['white'])
         self.StartButton.drawButton(self.gameDisplay)
         self.ExitButton.drawButton(self.gameDisplay)
+        self.gameDisplay.blit(self.titleBackground, ((self.window.windowSize[0]/2) - self.titleBackground_width/2, (self.window.windowSize[1]/3) - self.titleBackground_height/2))
         self.Title.drawTextBox(self.gameDisplay)
+    

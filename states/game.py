@@ -41,7 +41,7 @@ class Game(state.State):
 
     def get_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            self.playerProjectiles.append(projectile.projectile(self.player1))
+            self.playerProjectiles.append(projectile.projectile(self.player1, pygame.mouse.get_pos()))
         self.player1.getPlayerMovement(event)
 
     def update(self):
@@ -49,7 +49,10 @@ class Game(state.State):
         #update the score text
         self.getScore()
         self.scoreTextBox = ui.textBox(0, 0, 'Score: %s' % (self.score), 'comicsansms', 20, 'left', self.gameDisplay)
-        self.player1.updatePlayer(self.display_width, self.display_height, self.gameDisplay)
+        
+        if self.player1.updatePlayer(self.display_width, self.display_height, self.gameDisplay) == True:
+            self.next = 'gameover'
+            self.done = True
         self.draw()
 
         #enemies loop

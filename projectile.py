@@ -3,9 +3,9 @@ import math
 import physics2D
 
 class projectile:
-    def __init__(self, startObject):
+    def __init__(self, startObject, targetLocation):
         self.location = (startObject.location[0] + 1, startObject.location[1] + 1)
-        self.targetLocation = pygame.mouse.get_pos()
+        self.targetLocation = targetLocation
         self.img = pygame.image.load('images/missile.png')
         self.speed = 4
         self.physics = physics2D.physics()
