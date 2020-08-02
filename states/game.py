@@ -7,8 +7,8 @@ import projectile
 from states import state
 
 class Game(state.State):
-    def __init__(self, gameDisplay, window):
-        state.State.__init__(self, gameDisplay, window)
+    def __init__(self, gameDisplay, window, gameClock):
+        state.State.__init__(self, gameDisplay, window, gameClock)
         self.score = 0
         self.scoreText = 'Score: %s' % (self.score)
         self.display_width = self.window.windowSize[0]
@@ -34,7 +34,7 @@ class Game(state.State):
 
         #initialize enemies
         self.enemies = []
-        numberEnemies = 8
+        numberEnemies = 5
         for i in range(0, numberEnemies):
             self.enemies.append(enemy.enemy(self.window.windowSize[0], self.window.windowSize[1]))
         pass
@@ -72,7 +72,7 @@ class Game(state.State):
     def draw(self):
         self.gameDisplay.fill((255, 255, 255, 255))
         self.scoreTextBox.drawTextBox(self.gameDisplay)
-        self.player1.drawPlayer(self.gameDisplay)
+        self.player1.drawPlayer(self.gameDisplay, pygame.time.get_ticks())
 
         for i in self.playerProjectiles:
             i.drawProjectile(self.gameDisplay)

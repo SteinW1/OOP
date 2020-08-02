@@ -5,8 +5,8 @@ import ui
 from states import state
 
 class Splash(state.State):
-    def __init__(self, gameDisplay, window):
-        state.State.__init__(self, gameDisplay, window)
+    def __init__(self, gameDisplay, window, gameClock):
+        state.State.__init__(self, gameDisplay, window, gameClock)
         self.next = 'transition'
         self.targetState = 'menu'
         self.counter = 0

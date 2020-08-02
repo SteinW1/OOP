@@ -3,8 +3,8 @@ import pygame
 from states import state
 
 class Transition(state.State):
-    def __init__(self, gameDisplay, window):
-        state.State.__init__(self, gameDisplay, window)
+    def __init__(self, gameDisplay, window, gameClock):
+        state.State.__init__(self, gameDisplay, window, gameClock)
         self.backgroundAlphaColor = 0
 
         #set the next states 'next' variables

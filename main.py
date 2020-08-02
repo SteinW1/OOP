@@ -28,11 +28,11 @@ class GameController:
 
         # TODO: move state_dict dictionry to JSON file
         self.state_dict = {
-            'transition': transition.Transition(self.gameDisplay, self.window),
-            'menu': menu.Menu(self.gameDisplay, self.window),
-            'game': game.Game(self.gameDisplay, self.window),
-            'splash': splash.Splash(self.gameDisplay, self.window),
-            'gameover': gameover.GameOver(self.gameDisplay, self.window),
+            'transition': transition.Transition(self.gameDisplay, self.window, self.gameClock),
+            'menu': menu.Menu(self.gameDisplay, self.window, self.gameClock),
+            'game': game.Game(self.gameDisplay, self.window, self.gameClock),
+            'splash': splash.Splash(self.gameDisplay, self.window, self.gameClock),
+            'gameover': gameover.GameOver(self.gameDisplay, self.window, self.gameClock),
         }
 
     def setup_states(self, start_state):

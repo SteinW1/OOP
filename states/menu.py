@@ -13,10 +13,10 @@ colors = {'black': (0, 0, 0, 255),
     'sky_blue' : (184, 251, 255, 255)}
 
 class Menu(state.State):
-    def __init__(self, gameDisplay, window):
-        state.State.__init__(self, gameDisplay, window)
+    def __init__(self, gameDisplay, window, gameClock):
+        state.State.__init__(self, gameDisplay, window, gameClock)
         self.Title = None
-        self.StartButton = ui.button(150, 450, 100, 50, colors['bright_green'], colors['green'], colors['black'], "comicsansms", 20, "Start!")
+        self.StartButton = ui.button(150, 450, 100, 50, colors['bright_green'], colors['green'], colors['black'], "comicsansms", 20, "Start")
         self.ExitButton = ui.button(550, 450, 100, 50, colors['bright_red'], colors['red'], colors['black'], "comicsansms", 20, "Exit")
 
         self.titleBackground = pygame.image.load('images/TitleBackground.png')

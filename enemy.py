@@ -6,7 +6,7 @@ import physics2D
 class enemy:
     #initialize the enemy object
     def __init__(self, display_width, display_height):
-        self.speed = 2
+        self.speed = 1
         self.width = 16
         self.height = 32
         self.location = 0
