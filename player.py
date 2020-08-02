@@ -19,58 +19,71 @@ class player:
         self.currentSpriteFrame = 0
         self.framesInAnimation = 1
         self.direction = 0
-        self.moving = False
+        self.moveDown, self.moveUp, self.moveLeft, self.moveRight = False, False, False, False
+        self.sprite.setAnimationIndex(0 * self.framesInAnimation, self.framesInAnimation)
 
     # update the player for the frame
     def updatePlayer(self, display_width, display_height, gameDisplay):
         self.updatePlayerPosition()
-        #self.drawPlayer(gameDisplay)
         self.hitbox = (self.location[0], self.location[1], self.width, self.height)
         if self.detectCollision(display_width, display_height) == True:
             return True        
 
     #draw the player sprite onto the game canvas
     def drawPlayer(self, gameDisplay, currentTime):
+
+        #draw the sprite
         self.sprite.draw(gameDisplay, self.location[0], self.location[1])
 
-        if self.moving == True:
-            #self.sprite.updateSpriteFrame(self.location[0], self.location[1], self.framesInAnimation, currentTime)
-            self.sprite.updateSpriteFrame(self.location[0], self.location[1], currentTime)
+        #check if its time for the sprite to be updated
+        self.sprite.update(currentTime)
+
+        if self.moveDown == True or self.moveUp == True or self.moveLeft == True or self.moveRight == True:
+            self.sprite.animate()
+        else:
+            self.sprite.idle()
 
     #get the users keypress and convert it into the player's movement
     def getPlayerMovement(self, event):
 
-        # set movement direction values
-        down, up, right, left = 0, 1, 2, 3
+        # set animation index values
+        down, up, right, left = 0, 4, 8, 12
 
         if event.type == pygame.KEYDOWN:
-            self.moving = True
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                self.moveRight = True
                 self.x_change += self.speed
                 self.framesInAnimation = 4
-                self.sprite.setAnimationIndex(right * self.framesInAnimation, self.framesInAnimation)
+                self.sprite.setAnimationIndex(right, self.framesInAnimation)
+                self.moveRight = True
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                self.moveLeft = True
                 self.x_change -= self.speed
                 self.framesInAnimation = 4
-                self.sprite.setAnimationIndex(left * self.framesInAnimation, self.framesInAnimation)
+                self.sprite.setAnimationIndex(left, self.framesInAnimation)
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                self.moveDown = True
                 self.y_change += self.speed
                 self.framesInAnimation = 4
-                self.sprite.setAnimationIndex(down * self.framesInAnimation, self.framesInAnimation)
+                self.sprite.setAnimationIndex(down, self.framesInAnimation)
             if event.key == pygame.K_UP or event.key == pygame.K_w:
+                self.moveUp = True
                 self.y_change -= self.speed
                 self.framesInAnimation = 4
-                self.sprite.setAnimationIndex(up * self.framesInAnimation, self.framesInAnimation)
+                self.sprite.setAnimationIndex(up, self.framesInAnimation)
 
         if event.type == pygame.KEYUP:
-            self.moving = False
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                self.moveLeft = False
                 self.x_change += self.speed
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                self.moveRight = False
                 self.x_change -= self.speed
             if event.key == pygame.K_UP or event.key == pygame.K_w:
+                self.moveUp = False
                 self.y_change += self.speed
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                self.moveDown = False
                 self.y_change -= self.speed
 
     #detect if the player collides with the edge of the display screen

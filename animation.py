@@ -27,25 +27,28 @@ class animator:
         self.cellIndex = 0
         self.animationIndex = 0
 
-    def setToIdle(self):
-        self.framesInAnimation = 1
-        self.frame = self.animationIndex
+    def animate(self):
+        if self.switchFrame == True:
+            self.frame = (self.frame + 1) % self.framesInAnimation
+
+        self.cellIndex = (self.frame + self.animationIndex) % self.totalCellCount
+
+    def idle(self):
+        self.frame = 0
+        self.cellIndex = self.animationIndex
 
     def setAnimationIndex(self, index, framesInAnimation):
         self.animationIndex = index
         self.framesInAnimation = framesInAnimation
+        self.frame = 0
 
-    def updateSpriteFrame(self, x, y, currentTime):
+    def update(self, currentTime):
         # check if enough time has passed since the last sprite frame switch and switch if necessary
         if currentTime > self.timeUntilNextFrame:
-            self.frame = (self.frame + 1) % self.framesInAnimation
+            self.switchFrame = True
             self.timeUntilNextFrame += 1000/self.framesInAnimation
-
-        # get the index of the sprite frame that will be displayed
-        self.cellIndex = (self.frame + self.animationIndex) % self.totalCellCount
-
-        # print statement for debugging
-        print("Frame: ", self.frame, " TotalCellCount: ", self.totalCellCount, " CellIndex: ", self.cellIndex)
+        else:
+            self.switchFrame = False
 
     def draw(self, surface, x, y):
         surface.blit(self.sheet, (x + self.location[0], y + self.location[1]), self.cells[self.cellIndex])
