@@ -1,6 +1,6 @@
 import pygame
 import sys
-from states import menu, game, splash, transition, gameover
+from gamestates import menu, game, splash, transition, gameover
 
 class Window:
     def __init__(self, width, height, name, fps):
@@ -15,7 +15,7 @@ class Window:
         pygame.quit()
         quit()
 
-class GameController:
+class StateController:
     def __init__(self, window):
         self.__dict__.update(settings)
         self.done = False
@@ -26,7 +26,6 @@ class GameController:
         self.gameClock = pygame.time.Clock()
         self.window = window
 
-        # TODO: move state_dict dictionry to JSON file
         self.state_dict = {
             'transition': transition.Transition(self.gameDisplay, self.window, self.gameClock),
             'menu': menu.Menu(self.gameDisplay, self.window, self.gameClock),
@@ -74,12 +73,12 @@ if __name__ == '__main__':
     # TODO: move settings dictionary to JSON file
     settings = {
         'size':(800,600),
-        'fps' :60,
+        'fps' : 60,
         'WindowTitle' : 'Trolls2'
     }
 
     window = Window(800, 600, 'Trolls2', 60)
-    Trolls2 = GameController(window)
+    Trolls2 = StateController(window)
 
     Trolls2.setup_states('splash')
     Trolls2.main_game_loop()

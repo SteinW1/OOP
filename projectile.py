@@ -7,6 +7,7 @@ class projectile:
         self.location = (startObject.location[0] + 1, startObject.location[1] + 1)
         self.targetLocation = targetLocation
         self.img = pygame.image.load('images/missile.png')
+        self.width, self.height = 16, 16
         self.speed = 4
         self.physics = physics2D.physics()
         self.projectileMovement = self.physics.getMovement(self.location, self.targetLocation)
@@ -17,7 +18,7 @@ class projectile:
 
     #draw the projectile onto the canvas
     def drawProjectile(self, gameDisplay):
-        location = round(self.location[0]),round(self.location[1])
+        location = round(self.location[0] - (self.width/2)),round(self.location[1] - (self.height/2))
         gameDisplay.blit(self.img, (location))
 
     #detect if the projectile is offscreen

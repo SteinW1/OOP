@@ -1,7 +1,7 @@
 import sys
 import pygame
 import ui
-from states import state
+from gamestates import state
 
 colors = {'black': (0, 0, 0, 255),
     'white': (255, 255, 255, 255),
@@ -28,7 +28,7 @@ class Menu(state.State):
 
     def cleanup(self):
         #method for cleaning up Menu state stuff
-        print('Cleaning Up Menu State... \n    - Done.')
+        print('Cleaning Up Menu State...')
         self.isActive = False
 
     def startup(self):
@@ -60,4 +60,3 @@ class Menu(state.State):
         self.ExitButton.drawButton(self.gameDisplay)
         self.gameDisplay.blit(self.titleBackground, ((self.window.windowSize[0]/2) - self.titleBackground_width/2, (self.window.windowSize[1]/3) - self.titleBackground_height/2))
         self.Title.drawTextBox(self.gameDisplay)
-    

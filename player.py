@@ -1,6 +1,7 @@
 import pygame
 import math
 import animation
+import physics2D
 
 class player:
     def __init__(self, screenSize):
@@ -10,10 +11,11 @@ class player:
         self.width = 16
         self.height = 32
         self.speed = 1
+        self.rect = (self.location[0], self.location[1], self.width, self.height)
         self.hitbox = (self.location[0], self.location[1], self.width, self.height)
 
         #load spritesheet using the animator object
-        self.sprite = animation.animator("images/mainsheet.png", 6, 3)
+        self.sprite = animation.animator("images/mainsheet.png", 6, 4)
 
         #initialize animation settings
         self.currentSpriteFrame = 0
@@ -21,6 +23,7 @@ class player:
         self.direction = 0
         self.moveDown, self.moveUp, self.moveLeft, self.moveRight = False, False, False, False
         self.sprite.setAnimationIndex(0 * self.framesInAnimation, self.framesInAnimation)
+        self.physics = physics2D.physics()
 
     # update the player for the frame
     def updatePlayer(self, display_width, display_height, gameDisplay):
@@ -30,47 +33,47 @@ class player:
             return True        
 
     #draw the player sprite onto the game canvas
-    def drawPlayer(self, gameDisplay, currentTime):
-
-        #draw the sprite
-        self.sprite.draw(gameDisplay, self.location[0], self.location[1])
-
-        #check if its time for the sprite to be updated
-        self.sprite.update(currentTime)
-
-        if self.moveDown == True or self.moveUp == True or self.moveLeft == True or self.moveRight == True:
+    def drawPlayer(self, gameDisplay):
+        
+        #set animation index values
+        down, up, right, left = 0, 4, 8, 12
+        if self.moveDown == True:
+            self.framesInAnimation = 4
+            self.sprite.setAnimationIndex(down, self.framesInAnimation)
+            self.sprite.animate()
+        elif self.moveUp == True:
+            self.framesInAnimation = 4
+            self.sprite.setAnimationIndex(up, self.framesInAnimation)
+            self.sprite.animate()
+        elif self.moveRight == True:
+            self.framesInAnimation = 4
+            self.sprite.setAnimationIndex(right, self.framesInAnimation)
+            self.sprite.animate()
+        elif self.moveLeft == True:
+            self.framesInAnimation = 4
+            self.sprite.setAnimationIndex(left, self.framesInAnimation)
             self.sprite.animate()
         else:
             self.sprite.idle()
 
+        #draw the sprite
+        self.sprite.draw(gameDisplay, self.location[0], self.location[1])
+
     #get the users keypress and convert it into the player's movement
     def getPlayerMovement(self, event):
-
-        # set animation index values
-        down, up, right, left = 0, 4, 8, 12
-
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                 self.moveRight = True
                 self.x_change += self.speed
-                self.framesInAnimation = 4
-                self.sprite.setAnimationIndex(right, self.framesInAnimation)
-                self.moveRight = True
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 self.moveLeft = True
                 self.x_change -= self.speed
-                self.framesInAnimation = 4
-                self.sprite.setAnimationIndex(left, self.framesInAnimation)
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                 self.moveDown = True
                 self.y_change += self.speed
-                self.framesInAnimation = 4
-                self.sprite.setAnimationIndex(down, self.framesInAnimation)
             if event.key == pygame.K_UP or event.key == pygame.K_w:
                 self.moveUp = True
                 self.y_change -= self.speed
-                self.framesInAnimation = 4
-                self.sprite.setAnimationIndex(up, self.framesInAnimation)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:

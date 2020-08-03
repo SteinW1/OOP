@@ -12,18 +12,25 @@ class enemy:
         self.location = 0
         self.randomSpawn(display_width, display_height)
         self.timesHit = 0
-        self.direction = random.randrange(0,4)
+        self.startingSide = random.randrange(0,4)
         self.img = pygame.image.load('images/soldier.png')
         self.projectiles = []
-        self.hitbox = (self.location[0], self.location[1], self.width, self.height)
+        self.rect = (self.location[0], self.location[1], self.width, self.height)
         self.physics = physics2D.physics()
+
+        # Initialize hitbox. Hitbox offset and size are currently hardcoded and determined based on the sprite
+        # createHitbox(x, y, hitboxOffsetX, hitboxOffsetY, hitboxWidth, hitboxHeight)
+        self.hitbox = self.physics.createHitbox(self.location[0], self.location[1], 3, 7, 12, 22)
 
     # update the all of the enemy processes for the frame.
     def updateEnemy(self, display_width, display_height, player, gameDisplay):
-        #self.drawEnemy(gameDisplay)
+        
         #update the hitbox for the frame
-        self.hitbox = (self.location[0], self.location[1], self.width, self.height)
+        self.hitbox = self.physics.updateHitbox(self.location[0], self.location[1])
+        #self.hitbox = (self.location[0] + 3, self.location[1] + 7, self.width - 6, self.height - 9)
+        print(self.hitbox)
         pygame.draw.rect(gameDisplay, (255,0,0), self.hitbox, 1)
+
         #update position
         vector = self.physics.getVector(self.location, player.location)
         vectorLength = self.physics.getVectorLength(vector)
@@ -61,18 +68,18 @@ class enemy:
 
     #respawn the enemy with a random position outside the screen and with a random direction
     def randomSpawn(self, display_width, display_height):
-        self.direction = random.randrange(0,4)
+        self.startingSide = random.randrange(0,4)
         #~~~~   0 = down, 1 = right, 2 = up, 3 = left
-        if self.direction == 0:
+        if self.startingSide == 0:
             newX = random.randrange(0, display_width - self.width) 
             self.location = newX, 0 - self.height  
-        elif self.direction == 1:                                           
+        elif self.startingSide == 1:                                           
             newY = random.randrange(0, display_height - self.height)
             self.location = 0 - self.width, newY
-        elif self.direction == 2:
+        elif self.startingSide == 2:
             newX = random.randrange(0 , display_width - self.width)
             self.location = newX, display_height
-        elif self.direction == 3:
+        elif self.startingSide == 3:
             newY = random.randrange(0, display_height - self.height)
             self.location = display_width, newY
 

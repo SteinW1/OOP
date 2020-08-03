@@ -4,7 +4,8 @@ import ui
 import player
 import enemy
 import projectile
-from states import state
+import physics2D
+from gamestates import state
 
 class Game(state.State):
     def __init__(self, gameDisplay, window, gameClock):
@@ -44,8 +45,9 @@ class Game(state.State):
             self.playerProjectiles.append(projectile.projectile(self.player1, pygame.mouse.get_pos()))
         self.player1.getPlayerMovement(event)
 
-    def update(self):
 
+    #update function for the current game loop
+    def update(self):
         #update the score text
         self.getScore()
         self.scoreTextBox = ui.textBox(0, 0, 'Score: %s' % (self.score), 'comicsansms', 20, 'left', self.gameDisplay)
@@ -72,7 +74,7 @@ class Game(state.State):
     def draw(self):
         self.gameDisplay.fill((255, 255, 255, 255))
         self.scoreTextBox.drawTextBox(self.gameDisplay)
-        self.player1.drawPlayer(self.gameDisplay, pygame.time.get_ticks())
+        self.player1.drawPlayer(self.gameDisplay)
 
         for i in self.playerProjectiles:
             i.drawProjectile(self.gameDisplay)

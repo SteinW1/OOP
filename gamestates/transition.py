@@ -1,6 +1,6 @@
 import sys
 import pygame
-from states import state
+from gamestates import state
 
 class Transition(state.State):
     def __init__(self, gameDisplay, window, gameClock):
@@ -12,7 +12,7 @@ class Transition(state.State):
 
     def cleanup(self):
         #method for cleaning up state stuff
-        print('Cleaning Up Transition State... \n    - Done.')
+        print('Cleaning Up Transition State...')
 
     def startup(self):
         #method for starting state stuff

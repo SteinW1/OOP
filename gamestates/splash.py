@@ -2,7 +2,7 @@ import sys
 import time
 import pygame
 import ui
-from states import state
+from gamestates import state
 
 class Splash(state.State):
     def __init__(self, gameDisplay, window, gameClock):

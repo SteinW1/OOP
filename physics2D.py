@@ -34,3 +34,14 @@ class physics:
     def detectCollision(self, rectangle1, rectangle2):
         if (rectangle1[0] + rectangle1[2]) >= rectangle2[0] and rectangle1[0] <= (rectangle2[0] + rectangle2[2]) and (rectangle1[1] + rectangle1[3]) >= rectangle2[1] and rectangle1[1] <= (rectangle2[1] + rectangle2[3]):
             return True
+
+    #creates and returns a hitbox rect
+    def createHitbox(self, x, y, hitboxOffsetX, hitboxOffsetY, hitboxWidth, hitboxHeight):
+        self.hitboxOffsetX, self.hitboxOffsetY, self.hitboxWidth, self.hitboxHeight = hitboxOffsetX, hitboxOffsetY, hitboxWidth, hitboxHeight
+        self.hitbox = (x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight)
+        return self.hitbox
+
+    #returns updated hitboxes using new location coordinates
+    def updateHitbox(self, x, y):
+        self.hitbox = (x + self.hitboxOffsetX, y + self.hitboxOffsetY, self.hitboxWidth, self.hitboxHeight)
+        return self.hitbox
