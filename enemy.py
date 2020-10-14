@@ -28,7 +28,6 @@ class enemy:
         #update the hitbox for the frame
         self.hitbox = self.physics.updateHitbox(self.location[0], self.location[1])
         #self.hitbox = (self.location[0] + 3, self.location[1] + 7, self.width - 6, self.height - 9)
-        print(self.hitbox)
         pygame.draw.rect(gameDisplay, (255,0,0), self.hitbox, 1)
 
         #update position

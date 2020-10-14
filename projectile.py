@@ -4,7 +4,8 @@ import physics2D
 
 class projectile:
     def __init__(self, startObject, targetLocation):
-        self.location = (startObject.location[0] + 1, startObject.location[1] + 1)
+        #self.location = (startObject.location[0] + 1, startObject.location[1] + 1)
+        self.location = (startObject.location[0] + (startObject.width / 2), startObject.location[1] + (startObject.height / 2))
         self.targetLocation = targetLocation
         self.img = pygame.image.load('images/missile.png')
         self.width, self.height = 16, 16
