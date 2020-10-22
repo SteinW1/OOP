@@ -1,10 +1,11 @@
 import pygame
 import math
 import animation
-import physics2D
+import object2D
 
-class player:
+class player(object2D.Object2D):
     def __init__(self, screenSize):
+        object2D.Object2D.__init__(self) #initalize object2D parent class properties
         self.location = (screenSize[0] * 0.5), ((screenSize[1] * 0.5) - 32)
         self.x_change = 0
         self.y_change = 0
@@ -23,7 +24,6 @@ class player:
         self.direction = 0
         self.moveDown, self.moveUp, self.moveLeft, self.moveRight = False, False, False, False
         self.sprite.setAnimationIndex(0 * self.framesInAnimation, self.framesInAnimation)
-        self.physics = physics2D.physics()
 
     # update the player for the frame
     def updatePlayer(self, display_width, display_height, gameDisplay):
