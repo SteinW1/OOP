@@ -1,16 +1,16 @@
 import pygame
 import math
-import physics2D
+import object2D
 
-class projectile:
+class projectile(object2D.Object2D):
     def __init__(self, startObject, targetLocation):
-        #self.location = (startObject.location[0] + 1, startObject.location[1] + 1)
+        object2D.Object2D.__init__(self) #initalize object2D parent class properties
         self.location = (startObject.location[0] + (startObject.width / 2), startObject.location[1] + (startObject.height / 2))
+        self.width, self.height = 16, 16
+        self.rect = (self.location[0], self.location[1], self.width, self.height)
         self.targetLocation = targetLocation
         self.img = pygame.image.load('images/missile.png')
-        self.width, self.height = 16, 16
         self.speed = 4
-        self.physics = physics2D.physics()
         self.projectileMovement = self.physics.getMovement(self.location, self.targetLocation)
 
     #update the projectile for the frame

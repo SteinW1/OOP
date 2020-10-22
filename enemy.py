@@ -1,11 +1,12 @@
 import pygame
 import random
 import projectile
-import physics2D
+import object2D
 
-class enemy:
+class enemy(object2D.Object2D):
     #initialize the enemy object
     def __init__(self, display_width, display_height):
+        object2D.Object2D.__init__(self) #initalize object2D parent class properties
         self.speed = 1
         self.width = 16
         self.height = 32
@@ -16,7 +17,6 @@ class enemy:
         self.img = pygame.image.load('images/soldier.png')
         self.projectiles = []
         self.rect = (self.location[0], self.location[1], self.width, self.height)
-        self.physics = physics2D.physics()
 
         # Initialize hitbox. Hitbox offset and size are currently hardcoded and determined based on the sprite
         # createHitbox(x, y, hitboxOffsetX, hitboxOffsetY, hitboxWidth, hitboxHeight)

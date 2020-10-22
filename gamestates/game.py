@@ -5,6 +5,7 @@ import player
 import enemy
 import projectile
 import physics2D
+from camera import camera
 from gamestates import state
 
 class Game(state.State):
@@ -14,7 +15,6 @@ class Game(state.State):
         self.scoreText = 'Score: %s' % (self.score)
         self.display_width = self.window.windowSize[0]
         self.display_height = self.window.windowSize[1]
-
         self.targetState = 'menu'
 
     def cleanup(self):
@@ -33,6 +33,9 @@ class Game(state.State):
         self.player1 = player.player(self.window.windowSize)
         self.playerProjectiles = []
 
+        #initialize the camera
+        #self.camera1 = camera('basicCamera', self.levelWidth, self.levelHeight)
+
         #initialize enemies
         self.enemies = []
         numberEnemies = 5
@@ -45,7 +48,7 @@ class Game(state.State):
             self.playerProjectiles.append(projectile.projectile(self.player1, pygame.mouse.get_pos()))
         self.player1.getPlayerMovement(event)
 
-
+    ##### MAIN GAME LOOP #####
     #update function for the current game loop
     def update(self):
         #update the score text
@@ -56,6 +59,9 @@ class Game(state.State):
             self.next = 'gameover'
             self.done = True
         self.draw()
+
+        #update camera offset to follow the player
+        #self.camera1.update(self.player1)
 
         #enemies loop
         for i in self.enemies:
@@ -70,6 +76,7 @@ class Game(state.State):
             playerProjectilesCopy[i].updateProjectile(self.gameDisplay)
             if playerProjectilesCopy[i].detectOffScreen(self.display_width, self.display_height) == True:
                 del self.playerProjectiles[i]
+    ##### END MAIN GAME LOOP #####
 
     def draw(self):
         self.gameDisplay.fill((255, 255, 255, 255))
