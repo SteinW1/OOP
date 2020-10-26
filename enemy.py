@@ -2,6 +2,7 @@ import pygame
 import random
 import projectile
 import object2D
+import animation
 
 class enemy(object2D.Object2D):
     #initialize the enemy object
@@ -14,13 +15,36 @@ class enemy(object2D.Object2D):
         self.randomSpawn(display_width, display_height)
         self.timesHit = 0
         self.startingSide = random.randrange(0,4)
-        self.img = pygame.image.load('images/soldier.png')
-        self.projectiles = []
+        self.projectiles = 0
+        self.projectilesList = []
         self.rect = (self.location[0], self.location[1], self.width, self.height)
+        self.sprite = animation.animator("images/soldier.png", 1, 1)
 
         # Initialize hitbox. Hitbox offset and size are currently hardcoded and determined based on the sprite
-        # createHitbox(x, y, hitboxOffsetX, hitboxOffsetY, hitboxWidth, hitboxHeight)
         self.hitbox = self.physics.createHitbox(self.location[0], self.location[1], 3, 7, 12, 22)
+
+    #update method for handling all enemy processes for the frame
+    def update(self, display_width, display_height, player, entitiesList, gameDisplay):
+        #!TODO: add super().update() for updating hitboxes and drawing the object
+        
+        #update enemy hitbox for the frame
+        self.hitbox = self.physics.updateHitbox(self.location[0], self.location[1])
+        pygame.draw.rect(gameDisplay, (255,0,0), self.hitbox, 1)
+
+        #update position
+        vector = self.physics.getVector(self.location, player.location)
+        vectorLength = self.physics.getVectorLength(vector)
+
+        #code for updating enemy location and creating enemy projectiles
+        self.projectiles = len(self.projectilesList)
+        if vectorLength > 100:  # update position if distance > 100, else stop moving and send projectile at enemy
+            unitVector = self.physics.getUnitVector(vector, vectorLength)
+            self.location = (self.location[0] + unitVector[0] * self.speed, self.location[1] + unitVector[1] * self.speed)
+        elif self.projectiles < 1:
+            self.projectiles += 1
+            newProjectile = projectile.projectile(self, player.location)
+            self.projectilesList.append(newProjectile)
+            entitiesList.append(newProjectile)
 
     # update the all of the enemy processes for the frame.
     def updateEnemy(self, display_width, display_height, player, gameDisplay):
@@ -34,6 +58,7 @@ class enemy(object2D.Object2D):
         vector = self.physics.getVector(self.location, player.location)
         vectorLength = self.physics.getVectorLength(vector)
         
+        # code for creating projectiles
         if vectorLength > 100:  # update position if distance > 100, else stop moving and send projectile at enemy
             unitVector = self.physics.getUnitVector(vector, vectorLength)
             self.location = (self.location[0] + unitVector[0] * self.speed, self.location[1] + unitVector[1] * self.speed)
@@ -81,11 +106,3 @@ class enemy(object2D.Object2D):
         elif self.startingSide == 3:
             newY = random.randrange(0, display_height - self.height)
             self.location = display_width, newY
-
-    #draw the enemy on the canvas
-    def drawEnemy(self, gameDisplay):
-        gameDisplay.blit(self.img, (round(self.location[0]), round(self.location[1])))
-
-        #draw projectiles
-        for i in self.projectiles:
-            i.drawProjectile(gameDisplay)

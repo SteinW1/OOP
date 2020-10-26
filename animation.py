@@ -53,5 +53,5 @@ class animator:
         else:
             self.switchFrame = False
 
-    def draw(self, surface, x, y):
-        surface.blit(self.sheet, (x + self.location[0], y + self.location[1]), self.cells[self.cellIndex])
+    def draw(self, gameDisplay, x, y):
+        gameDisplay.blit(self.sheet, (x + self.location[0], y + self.location[1]), self.cells[self.cellIndex])

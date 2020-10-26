@@ -32,10 +32,7 @@ class player(object2D.Object2D):
         if self.detectCollision(display_width, display_height) == True:
             return True        
 
-    #draw the player sprite onto the game canvas
-    def drawPlayer(self, gameDisplay):
-        
-        #set animation index values
+    #set animation index values
         down, up, right, left = 0, 4, 8, 12
         if self.moveDown == True:
             self.framesInAnimation = 4
@@ -55,9 +52,6 @@ class player(object2D.Object2D):
             self.sprite.animate()
         else:
             self.sprite.idle()
-
-        #draw the sprite
-        self.sprite.draw(gameDisplay, self.location[0], self.location[1])
 
     #get the users keypress and convert it into the player's movement
     def getPlayerMovement(self, event):
